@@ -6,6 +6,7 @@ include { faindex } from './processes/faindex.nf'
 include { markdups } from './processes/markdups.nf'
 include { bamindex } from './processes/bamindex.nf'
 include { varcall } from './processes/varcall.nf'
+include { vcfnorm } from './processes/vcfnorm.nf'
 include { flagstat } from './processes/flagstat.nf'
 include { bcfstats } from './processes/bcfstats.nf'
 include { report } from './processes/report.nf'
@@ -21,6 +22,7 @@ workflow {
     markdups(align.out)
     bamindex(markdups.out)
     varcall(reference, markdups.out.join(bamindex.out), faindex.out)
+    vcfnorm(reference, faindex.out, varcall.out)
     flagstat(align.out)
     bcfstats(varcall.out)
     report(
